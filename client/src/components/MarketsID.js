@@ -1,16 +1,21 @@
 import "../styles/App.css";
-import { useEffect, useState} from "react";
+import {Link, useLocation ,useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 
-const Markets = () => {
+const MarketsID = () => {
+    const location = useLocation();
+    const coins = location.state;
+    const [Prices, usePrices] = useState({})
+    const { id } = useParams();
+    console.log("coinid" , id)
 
-    const [MarketCoins ,setMarketCoins ] = useState([])
 
     useEffect(() => {
         GetMarketCoin()
     }, []);
 
     async function GetMarketCoin() {
-        const result = await fetch(`http://localhost:3000/coins/markets`, {
+        const result = await fetch(`http://localhost:3000/coins/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -23,14 +28,10 @@ const Markets = () => {
                 return data;
             });
 
-        console.log("result")
-        setMarketCoins(result);
-
-
+        console.log("result" , result)
+        usePrices(result)
     }
-
-    console.log(MarketCoins)
-    console.log("MarketCoins == undefined " , MarketCoins.length !== 0 )
+    console.log("Prices " , Prices.length )
 
 return (
     <div className="sign-button">
@@ -38,25 +39,29 @@ return (
         className="sign-form"
         onSubmit={(e) => {
           e.preventDefault();
-            // GetMarketCoin()
+
         }}
       >
 
           <div>
-              { MarketCoins.length !== 0 ? (
+              { Prices.length != undefined ? (
                   <div>
-                      <div> {MarketCoins.map((obj , index) =>
-                          <div key={obj.id} className="infoadmin">
-                              <div>Name:{obj.id} </div>
-                              <Link to={`/markets/${obj.id}`}>
-                                  <button type="submit"> Singin </button>
-                              </Link>
-
+                      <div>Name:{coins.coin.name} </div>
+                      <div>Symbol:{coins.coin.symbol} </div>
+                      <div>Current price:{coins.coin.current_price} </div>
+                      <div>High 24h:{coins.coin.high_24h} </div>
+                      <div>Low 24h:{coins.coin.low_24h} </div>
+                      <div> {Prices.map((price , index) =>
+                          <div key={price.daysAgo} className="infoadmin">
+                              <div>
+                                Price before {price.daysAgo} days was {price.price} usd
+                              </div>
                           </div>
                       )}
                       </div>
+
                   </div>
-              )  : ( <>You do not have active product</>)
+              )  : ( <>Loading</>)
               }
 
           </div>
@@ -67,4 +72,4 @@ return (
   );
 };
 
-export default Markets;
+export default MarketsID;
