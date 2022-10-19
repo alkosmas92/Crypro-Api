@@ -1,21 +1,29 @@
 import "../styles/App.css";
 import { useEffect, useState} from "react";
 import {Link } from "react-router-dom";
+import {paginate} from "../functions/paginate";
+import "../styles/paginate.css"
+var max=10
 
 const Markets = () => {
 
     const [MarketCoins ,setMarketCoins ] = useState([])
+    const [currentPage ,setNextPage ] = useState(1)
+
 
     useEffect(() => {
         GetMarketCoin()
-    }, []);
+    }, [currentPage]);
 
     async function GetMarketCoin() {
+
         const result = await fetch(`http://localhost:3000/coins/markets`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    count: max,
+                    current: currentPage,
                 },
             }
         )
@@ -27,6 +35,12 @@ const Markets = () => {
         setMarketCoins(result);
     }
     console.log("result", MarketCoins)
+    // let pagination = paginate({current, max})
+    const handleClick = (num) => {
+        setNextPage(num);
+
+    };
+    console.log(currentPage)
 
 
 return (
@@ -35,7 +49,7 @@ return (
         className="sign-form"
         onSubmit={(e) => {
           e.preventDefault();
-            // GetMarketCoin()
+          GetMarketCoin()
         }}
       >
           <div>
@@ -55,6 +69,20 @@ return (
                           </div>
                       )}
                       </div>
+
+                      <div className="pagination">
+                          {[...Array(parseInt(250/max)).keys()].map((a) => (
+                              <div
+                                  onClick={() => handleClick(a + 1)}
+                                  className={`pagination__page ${
+                                      currentPage === a + 1 ? "active" : null
+                                  }`}
+                              >
+                                  {a + 1}{" "}
+                              </div>
+                          ))}
+                      </div>
+
                   </div>
               )  : ( <h2>loading</h2>)
               }

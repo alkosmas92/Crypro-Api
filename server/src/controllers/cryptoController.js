@@ -1,7 +1,7 @@
 const cryptoService = require("../services/cryptoService");
 
 const getAllCryptos = async (req, res) => {
-    const allCryptos = await cryptoService.getAllCryptos();
+    const allCryptos = await cryptoService.getAllCryptos(req.headers.count ,  req.headers.current);
     res.send(allCryptos.data );
 };
 

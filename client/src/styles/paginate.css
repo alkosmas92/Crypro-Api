@@ -1,0 +1,22 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: small;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: medium;
+}
+
+.pagination__page {
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.active {
+    background: pink;
+}

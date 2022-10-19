@@ -1,8 +1,8 @@
 // In src/services/workoutServices.js
 const Crypto = require("../database/Crypto");
 
-const getAllCryptos = async() => {
-    const allCryptos = await Crypto.getAllCoins();
+const getAllCryptos = async(count, current) => {
+    const allCryptos = await Crypto.getAllCoins(count , current);
     return allCryptos;
 };
 

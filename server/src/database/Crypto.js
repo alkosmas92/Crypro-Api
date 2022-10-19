@@ -2,9 +2,13 @@ const DB = require("./db.json");
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
-const getAllCoins =  async() => {
+const getAllCoins =  async(count , current) => {
+    console.log("take",current)
     let data = await  CoinGeckoClient.coins.markets( {
-        per_page:10}
+        vs_currency: "usd",
+        per_page:count,
+        page:current,
+        }
     );
     return data;
 };
