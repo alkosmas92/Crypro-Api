@@ -12,7 +12,7 @@ const App = () =>(
   <StrictMode>
        <BrowserRouter>
         <header>
-          <Link to="/markets/coins">Crypto Api</Link>
+          <Link to="/markets/coins"><h1>Crypto Api</h1></Link>
         </header>
         <Routes>
           <Route path="/markets/coins" element={<Markets />} />

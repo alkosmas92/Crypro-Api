@@ -53,20 +53,24 @@ return (
         }}
       >
           <div>
-              { MarketCoins.length !== 0 ? (
-                  <div>
+              { MarketCoins.length ? (
+                  <div className="search">
                       <div> {MarketCoins.map((coin , index) =>
-                          <div key={coin.id} className="infoadmin">
-                              <div>Name:{coin.name} </div>
-                              <div>Symbol:{coin.symbol} </div>
-                              <div>Current price:{coin.current_price} </div>
-                              <div>High 24h:{coin.high_24h} </div>
-                              <div>Low 24h:{coin.low_24h} </div>
-                              <Link to={`/markets/${coin.id}`}  state={{coin}} >
-                                  <button type="submit"> Details </button>
-                              </Link>
-
+                      <Link to={`/markets/${coin.id}`}  state={{coin}} >
+                          <div key={coin.id} className="main">
+                              <img
+                                  src={coin.image}
+                                  alt="coin"
+                              />
+                              <div className="main-details">
+                                  <h2 className="info"><strong>Name:</strong>{coin.name} </h2>
+                                  <h2 className="info"><strong>Symbol:</strong>{coin.symbol} </h2>
+                                  <h2 className="info"><strong>Current price:</strong>{coin.current_price} $ </h2>
+                                  <h2 className="info"><strong>High 24h:</strong>{coin.high_24h} $ </h2>
+                                  <h2 className="info"><strong>Low 24h:</strong>{coin.low_24h} $  </h2>
+                              </div>
                           </div>
+                      </Link>
                       )}
                       </div>
 
@@ -84,7 +88,7 @@ return (
                       </div>
 
                   </div>
-              )  : ( <h2>loading</h2>)
+              )  : ( <h2 className="info">loading</h2>)
               }
 
           </div>
