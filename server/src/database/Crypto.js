@@ -3,8 +3,9 @@ const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 const getLength =  async(count , current) => {
-    let list = await CoinGeckoClient.coins.list();
-
+    let list = await CoinGeckoClient.coins.list({
+        vs_currency: "usd",
+    });
     return list.data.length;
 };
 
@@ -16,8 +17,6 @@ const getAllCoins =  async(count , current) => {
         page:current,
         }
     );
-
-
     return data;
 };
 

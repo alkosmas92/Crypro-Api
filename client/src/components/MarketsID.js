@@ -8,7 +8,6 @@ const MarketsID = () => {
     const coins = location.state;
     const [Prices, usePrices] = useState({})
     const { id } = useParams();
-    console.log("coinid" , id)
 
 
     useEffect(() => {
@@ -44,19 +43,19 @@ return (
                           alt="coin"
                       />
                       <div className="details">
-                          <div><strong>Name:</strong>{coins.coin.name} </div>
-                          <div><strong>Symbol:</strong>{coins.coin.symbol} </div>
-                          <div><strong>Current price:</strong>{coins.coin.current_price} </div>
-                          <div><strong>High 24h:</strong>{coins.coin.high_24h} </div>
-                          <div><strong>Low 24h:</strong>{coins.coin.low_24h} </div>
+                          <div><strong>Name:</strong> {coins.coin.name} </div>
+                          <div><strong>Symbol:</strong> {coins.coin.symbol} </div>
+                          <div><strong>Current price:</strong> {coins.coin.current_price}$ </div>
                           <div> {Prices.map((price , index) =>
                               <div key={price.daysAgo} className="infoadmin">
                                   <div>
-                                      <strong>Price before {price.daysAgo} days was:</strong> {price.price} $
+                                      <strong>Price before {price.daysAgo} days was: </strong> {price.price}$
                                   </div>
                               </div>
                           )}
                           </div>
+                          <div><strong>High 24h:</strong> {coins.coin.high_24h}$ </div>
+                          <div><strong>Low 24h:</strong> {coins.coin.low_24h}$</div>
                       </div>
                   </div>
               )  : ( <h1>Loading . . .</h1>)

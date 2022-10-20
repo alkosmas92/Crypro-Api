@@ -3,16 +3,16 @@ import { useEffect, useState} from "react";
 import {Link } from "react-router-dom";
 import {paginate} from "../functions/paginate";
 import "../styles/paginate.css"
-import Paginatation from "./Paginatation";
 
-var coinsPerPAge = 10
-var Fp = [];
+
+var coinsPerPAge = 100  // var for control the count of coins for each page
+var ArrayPagination = [];  // Array for pagination
 const Markets = () => {
 
-    const [MarketCoins ,setMarketCoins ] = useState([])
-    const [current ,setNextPage ] = useState(1)
-    const [max ,setCountOfCoin ] = useState(0)
-    const [findTheDivison ,setfindTheDivison ] = useState(0)
+    const [MarketCoins ,setMarketCoins ] = useState([])    //hook to save Array of Coins
+    const [current ,setNextPage ] = useState(1)         //hook to save Current page
+    const [max ,setCountOfCoin ] = useState(0)            // hook for save count of coins
+    const [findTheRemainder ,setfindTheRemainder ] = useState(0)  // hook save the remainder from division CountCoin(max)/coinsPerPAge
 
 
     useEffect(() => {
@@ -21,11 +21,10 @@ const Markets = () => {
 
     useEffect(() => {
         GetLength()
-
     }, []);
 
 
-    async function GetLength() {
+    async function GetLength() {     // function: help me fine the count of coins
         const result = await fetch(`http://localhost:3000/coins/count`, {
                 method: "GET",
                 headers: {
@@ -38,24 +37,22 @@ const Markets = () => {
             .then((data) => {
                 return data;
             });
-        setfindTheDivison(result.count % coinsPerPAge);      // i want the division in order to calculate the last page of coins
-       let myInt = Math.ceil(result.count/coinsPerPAge)
-        console.log("myInt" , myInt)
-        console.log("result" , result.count)
-        setCountOfCoin(myInt-1); // i calculate the count of pages, base on the count of coins
+        setfindTheRemainder(result.count % coinsPerPAge);      // i want the division in order to calculate the last page of coins
+       let myInt = Math.ceil(result.count/coinsPerPAge)      //i calculate the count of pages, base on the division between count of coins / count of coins
+        setCountOfCoin(myInt);
     }
 
 
 
 
-    async function GetMarketCoin() {
+    async function GetMarketCoin() {   // function: get info for each coin
         if(current!==max) {
             const result = await fetch(`http://localhost:3000/coins/markets`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         Accept: "application/json",
-                        count: coinsPerPAge,
+                        count: coinsPerPAge,  // count of coins which I need per page
                         current: current,
                     },
                 }
@@ -67,14 +64,13 @@ const Markets = () => {
             setMarketCoins(result);
         }
 
-        else if(current === max){
-
+        else if(current === max){               //if you are the last page, then change the count with remainder for correct results
             const result = await fetch(`http://localhost:3000/coins/markets`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         Accept: "application/json",
-                        count: findTheDivison,
+                        count: findTheRemainder,   //change count with remainder ---> findTheRemainder
                         current: current,
                     },
                 }
@@ -85,21 +81,18 @@ const Markets = () => {
                 });
             setMarketCoins(result);
         }
-        console.log("res",current ,max)
-
+        console.log("res",MarketCoins)
     }
 
-    const handleClick = (num) => {
+    const handleClick = (num) => {    // change the current page, base on pagination click
         console.log(num)
         if(typeof(num)=== "string" ){
             return
         }
-
-            setNextPage(num);
-        co
+        setNextPage(num);
     };
 
-    Fp = paginate({current,max})
+    ArrayPagination = paginate({current,max})  // create paginate function to create array for pagination
 
 return (
     <div className="sign-button">
@@ -122,7 +115,7 @@ return (
                                   alt="coin"
                               />
                               <div className="main-details">
-                                  <h2 className="info"><strong>Name:</strong>{coin.name} </h2>
+                                  <h2 className="info"><strong>Name:</strong>{coin.name}  </h2>
                                   <h2 className="info"><strong>Symbol:</strong>{coin.symbol} </h2>
                                   <h2 className="info"><strong>Current price:</strong>{coin.current_price} $ </h2>
                                   <h2 className="info"><strong>High 24h:</strong>{coin.high_24h} $ </h2>
@@ -136,17 +129,16 @@ return (
 
                     <div>
 
-                        { Fp ==null ?( <>Loading</>) : (
+                        { ArrayPagination ==null ?( <>Loading</>) : (
                           <div className="pagination">
-                              {console.log("Fp",Fp)}
-                              {Fp.items.map((a) => (
+                              {ArrayPagination.items.map((a) => (
                                   <div
                                       onClick={() => handleClick(a )}
                                       className={`pagination__page ${
                                           current === a  ? "active" : null
                                       }`}
                                   >
-                                      {a}{" "}
+                                      {" "}{a}{" "}
                                   </div>
                               ))}
                           </div>

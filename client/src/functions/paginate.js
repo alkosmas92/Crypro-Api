@@ -1,3 +1,6 @@
+// https://www.zacfukuda.com/blog/pagination-algorithm i use this for pagination algorithm
+
+
 function paginate({current, max}) {
     if (!current || !max) return null
 
