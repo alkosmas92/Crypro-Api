@@ -1,5 +1,12 @@
 const cryptoService = require("../services/cryptoService");
 
+const getCountOfCoin =async (req, res) => {
+    const CountOfCoin = await cryptoService.getCountOfCoin();
+
+     res.send({count : CountOfCoin} );
+};
+
+
 const getAllCryptos = async (req, res) => {
     const allCryptos = await cryptoService.getAllCryptos(req.headers.count ,  req.headers.current);
     res.send(allCryptos.data );
@@ -14,9 +21,8 @@ const getCoin = async (req, res) => {
 
 };
 
-
-
 module.exports = {
     getAllCryptos,
     getCoin,
+    getCountOfCoin,
 }

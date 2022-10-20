@@ -11,7 +11,7 @@ import MarketsID from "./components/MarketsID";
 const App = () =>(
   <StrictMode>
        <BrowserRouter>
-        <header>
+        <header >
           <Link to="/markets/coins"><h1>Crypto Api</h1></Link>
         </header>
         <Routes>

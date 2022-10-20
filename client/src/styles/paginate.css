@@ -77,6 +77,7 @@ h2 {
     text-overflow: ellipsis;
 }
 
+
 a:-webkit-any-link {
     color: black;
     cursor: pointer;
@@ -124,3 +125,12 @@ a:-webkit-any-link {
 
 
 
+
+header {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 1100px;
+    margin: 0 auto;
+    padding: 20px 0px 0px 0px;
+}

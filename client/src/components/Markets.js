@@ -3,27 +3,34 @@ import { useEffect, useState} from "react";
 import {Link } from "react-router-dom";
 import {paginate} from "../functions/paginate";
 import "../styles/paginate.css"
-var max=10
+import Paginatation from "./Paginatation";
 
+var coinsPerPAge = 10
+var Fp = [];
 const Markets = () => {
 
     const [MarketCoins ,setMarketCoins ] = useState([])
-    const [currentPage ,setNextPage ] = useState(1)
+    const [current ,setNextPage ] = useState(1)
+    const [max ,setCountOfCoin ] = useState(0)
+    const [findTheDivison ,setfindTheDivison ] = useState(0)
 
 
     useEffect(() => {
         GetMarketCoin()
-    }, [currentPage]);
+    }, [current]);
 
-    async function GetMarketCoin() {
+    useEffect(() => {
+        GetLength()
 
-        const result = await fetch(`http://localhost:3000/coins/markets`, {
+    }, []);
+
+
+    async function GetLength() {
+        const result = await fetch(`http://localhost:3000/coins/count`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
-                    count: max,
-                    current: currentPage,
                 },
             }
         )
@@ -31,17 +38,68 @@ const Markets = () => {
             .then((data) => {
                 return data;
             });
-
-        setMarketCoins(result);
+        setfindTheDivison(result.count % coinsPerPAge);      // i want the division in order to calculate the last page of coins
+       let myInt = Math.ceil(result.count/coinsPerPAge)
+        console.log("myInt" , myInt)
+        console.log("result" , result.count)
+        setCountOfCoin(myInt-1); // i calculate the count of pages, base on the count of coins
     }
-    console.log("result", MarketCoins)
-    // let pagination = paginate({current, max})
+
+
+
+
+    async function GetMarketCoin() {
+        if(current!==max) {
+            const result = await fetch(`http://localhost:3000/coins/markets`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        count: coinsPerPAge,
+                        current: current,
+                    },
+                }
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    return data;
+                });
+            setMarketCoins(result);
+        }
+
+        else if(current === max){
+
+            const result = await fetch(`http://localhost:3000/coins/markets`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        count: findTheDivison,
+                        current: current,
+                    },
+                }
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    return data;
+                });
+            setMarketCoins(result);
+        }
+        console.log("res",current ,max)
+
+    }
+
     const handleClick = (num) => {
-        setNextPage(num);
+        console.log(num)
+        if(typeof(num)=== "string" ){
+            return
+        }
 
+            setNextPage(num);
+        co
     };
-    console.log(currentPage)
 
+    Fp = paginate({current,max})
 
 return (
     <div className="sign-button">
@@ -49,11 +107,12 @@ return (
         className="sign-form"
         onSubmit={(e) => {
           e.preventDefault();
-          GetMarketCoin()
+          GetMarketCoin(),
+            GetLength()
         }}
       >
           <div>
-              { MarketCoins.length ? (
+              { !MarketCoins.length   ? ( <h2 className="info">loading</h2>) : (
                   <div className="search">
                       <div> {MarketCoins.map((coin , index) =>
                       <Link to={`/markets/${coin.id}`}  state={{coin}} >
@@ -74,21 +133,27 @@ return (
                       )}
                       </div>
 
-                      <div className="pagination">
-                          {[...Array(parseInt(250/max)).keys()].map((a) => (
-                              <div
-                                  onClick={() => handleClick(a + 1)}
-                                  className={`pagination__page ${
-                                      currentPage === a + 1 ? "active" : null
-                                  }`}
-                              >
-                                  {a + 1}{" "}
-                              </div>
-                          ))}
-                      </div>
 
+                    <div>
+
+                        { Fp ==null ?( <>Loading</>) : (
+                          <div className="pagination">
+                              {console.log("Fp",Fp)}
+                              {Fp.items.map((a) => (
+                                  <div
+                                      onClick={() => handleClick(a )}
+                                      className={`pagination__page ${
+                                          current === a  ? "active" : null
+                                      }`}
+                                  >
+                                      {a}{" "}
+                                  </div>
+                              ))}
+                          </div>
+                        )}
+                    </div>
                   </div>
-              )  : ( <h2 className="info">loading</h2>)
+                 )
               }
 
           </div>
