@@ -1,4 +1,3 @@
-const DB = require("./db.json");
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
@@ -24,7 +23,6 @@ const  getCryptos = async(coinId) => {
 
     let daysArray = [1 , 7 , 14 , 30 , 60 , 200 ,365]
     let ArrayPrice =[];
-    let daily = 'daily'
     console.log(coinId)
 
     for(let i =0 ; i < daysArray.length ; i++) {
