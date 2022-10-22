@@ -1,7 +1,7 @@
 import "../styles/App.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "../styles/paginate.css";
+import "../styles/coin-details.css";
 
 const MarketsID = () => {
   const location = useLocation();

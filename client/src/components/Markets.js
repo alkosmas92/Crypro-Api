@@ -2,11 +2,91 @@ import "../styles/App.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paginate } from "../functions/paginate";
-import "../styles/paginate.css";
+ //import "../styles/paginate.css";
+import styled from "styled-components";
+
+
+
+const Wrapper = styled.div`
+
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: medium;
+
+  }
+
+  .pagination__page {
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 3px;
+    cursor: pointer;
+  }
+
+  .main {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 6px;
+    background: #faeff0;
+    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
+    display: flex;
+    gap:48%;
+    flex-basis: 80%;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .main-details{
+    gap:5%;
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+  }
+
+
+  .info {
+    float: left;
+    display: flex;
+    gap: 5px;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: 20px;
+    margin: 0;
+    text-overflow: ellipsis;
+  }
+  .search {
+    width: 100%;
+    padding: 15px;
+    border-radius: 9px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+`;
+
+
+
+const StyleImg = styled.img`{
+    clip-path: circle(50% at 50% 50%);
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin: 0px 20px 0px 10px;
+  `;
+
+// Create a Wrapper component that'll render a <section> tag with some styles
 
 var coinsPerPAge = 100; // var for control the count of coins for each page
 var ArrayPagination = []; // Array for pagination
+//
+
 const Markets = () => {
+
   const [MarketCoins, setMarketCoins] = useState([]); //hook to save Array of Coins
   const [current, setNextPage] = useState(1); //hook to save Current page
   const [max, setCountOfCoin] = useState(0); // hook for save count of coins
@@ -87,78 +167,83 @@ const Markets = () => {
   ArrayPagination = paginate({ current, max }); // create paginate function to create array for pagination
 
   return (
-    <div className="sign-button">
-      <form
-        className="sign-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          GetMarketCoin(), GetLength();
-        }}
-      >
-        <div>
-          {!MarketCoins.length ? (
-            <h1 className="info">loading . . .</h1>
-          ) : (
-            <div className="search">
-              <div>
-                {" "}
-                {MarketCoins.map((coin, index) => (
-                  <Link to={`/markets/${coin.id}`} state={{ coin }} key={coin.id}>
-                    <div  className="main">
-                      <img src={coin.image} alt="coin" />
-                      <div className="main-details">
-                        <h2 className="info">
-                          <strong>Name:</strong>
-                          {coin.name}{" "}
-                        </h2>
-                        <h2 className="info">
-                          <strong>Symbol:</strong>
-                          {coin.symbol}{" "}
-                        </h2>
-                        <h2 className="info">
-                          <strong>Current price:</strong>
-                          {coin.current_price} ${" "}
-                        </h2>
-                        <h2 className="info">
-                          <strong>High 24h:</strong>
-                          {coin.high_24h} ${" "}
-                        </h2>
-                        <h2 className="info">
-                          <strong>Low 24h:</strong>
-                          {coin.low_24h} ${" "}
-                        </h2>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              <div>
-                {ArrayPagination == null ? (
-                  <>Loading</>
-                ) : (
-                  <div className="pagination">
-                    {ArrayPagination.items.map((numOfPage) => (
-                      <div
-                        onClick={() => handleClick(numOfPage)}
-                        className={`pagination__page ${
-                          current === numOfPage ? "active" : null
-                        }`}
-                        key={numOfPage}
-                      >
-
-                        {numOfPage}{" "}
-                      </div>
+      <Wrapper>
+      <div className="sign-button">
+        <form
+            className="sign-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              GetMarketCoin(), GetLength();
+            }}
+        >
+          <div>
+            {!MarketCoins.length ? (
+                <h1 className="info">loading . . .</h1>
+            ) : (
+                <div className="search">
+                  <div>
+                    {" "}
+                    {MarketCoins.map((coin, index) => (
+                        <Link to={`/markets/${coin.id}`} state={{ coin }} key={coin.id}>
+                          <div  className="main">
+                            <StyleImg src={coin.image} alt="coin" />
+                            <div className="main-details">
+                              <h2 className="info">
+                                <strong>Name:</strong>
+                                {coin.name}{" "}
+                              </h2>
+                              <h2 className="info">
+                                <strong>Symbol:</strong>
+                                {coin.symbol}{" "}
+                              </h2>
+                              <h2 className="info">
+                                <strong>Current price:</strong>
+                                {coin.current_price} ${" "}
+                              </h2>
+                              <h2 className="info">
+                                <strong>High 24h:</strong>
+                                {coin.high_24h} ${" "}
+                              </h2>
+                              <h2 className="info">
+                                <strong>Low 24h:</strong>
+                                {coin.low_24h} ${" "}
+                              </h2>
+                            </div>
+                          </div>
+                        </Link>
                     ))}
                   </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </form>
-    </div>
+
+                  <div>
+                    {ArrayPagination == null ? (
+                        <>Loading</>
+                    ) : (
+                        <div className="pagination">
+                          {ArrayPagination.items.map((numOfPage) => (
+                              <div
+                                  onClick={() => handleClick(numOfPage)}
+                                  className={`pagination__page ${
+                                      current === numOfPage ? "active" : null
+                                  }`}
+                                  key={numOfPage}
+                              >
+
+                                {numOfPage}{" "}
+                              </div>
+                          ))}
+                        </div>
+                    )}
+                  </div>
+                </div>
+            )}
+          </div>
+        </form>
+      </div>
+      </Wrapper>
   );
 };
+
+
+
 
 export default Markets;

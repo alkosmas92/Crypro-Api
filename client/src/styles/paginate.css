@@ -80,7 +80,7 @@ h2 {
 
 a:-webkit-any-link {
     color: black;
-    cursor: pointer;
+    /*cursor: pointer;*/
     text-decoration: none;
 }
 
