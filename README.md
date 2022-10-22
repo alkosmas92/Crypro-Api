@@ -12,11 +12,11 @@ API. I use (https://github.com/miscavage/CoinGecko-API) for my queries. Finally,
 ```bash
  git clone git@github.com:alkosmas92/Cyberscope-Junior-Full-Stack-Assignment.git
  cd Cyberscope-Junior-Full-Stack-Assignment
- cd client
+ cd server
  npm install
  npm run dev
 ```
-(http://localhost:3000/)
+http://localhost:3000/
 
 #Client
 
@@ -35,8 +35,8 @@ if you have clone the repository:
  npm install
  npm run dev
 ```
-
-(http://localhost:1234/markets/coins)
+run in your Browser:
+http://localhost:1234/markets/coins
 
 #Test
 

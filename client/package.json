@@ -7,7 +7,7 @@
     "redux": "^4.2.0",
     "styled-components": "^5.3.6"
   },
-  "name": "good-start",
+  "name": "Crypto Api",
   "version": "1.0.0",
   "main": "App.js",
   "devDependencies": {
