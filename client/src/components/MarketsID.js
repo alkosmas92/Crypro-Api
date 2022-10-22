@@ -30,7 +30,7 @@ const MarketsID = () => {
       });
 
     console.log("result", result);
-    usePrices(result.data);
+    usePrices(result);
   }
   async function GetMarketDesc() {
     const result = await fetch(`http://localhost:3000/coins/${id}/desc`, {
@@ -45,10 +45,10 @@ const MarketsID = () => {
         return data;
       });
 
-    console.log("result", result);
+
     useDesc(result);
   }
-  console.log("desc ", desc);
+
 
   return (
     <div>
@@ -66,7 +66,7 @@ const MarketsID = () => {
                 </div>
                 <div><strong>Description:</strong></div>
                 <div className="moreInfo">
-                  <div dangerouslySetInnerHTML={{ __html: desc.desc }}></div>
+                  <div dangerouslySetInnerHTML={{ __html: desc }}></div>
                 </div>
                   <strong>Prices: </strong>{" "}
                 <div className="price-before">
