@@ -10,13 +10,26 @@ const getLength =  async(count , current) => {
 
 const getAllCoins =  async(count , current) => {
     console.log("take",current)
-    let data = await  CoinGeckoClient.coins.markets( {
+    let dataCoins = await  CoinGeckoClient.coins.markets( {
         vs_currency: "usd",
         per_page:count,
         page:current,
         }
     );
-    return data;
+    let ArrayCoins=[]
+    for(let i =0 ; i < dataCoins.data.length ; i++) {
+        ArrayCoins[i] = {
+            id: dataCoins.data[i].id,
+            name:dataCoins.data[i].name ,
+            symbol:dataCoins.data[i].symbol,
+            current_price: dataCoins.data[i].current_price,
+            high_24h:dataCoins.data[i].high_24h,
+            low_24h:dataCoins.data[i].low_24h,
+            price_change_24h:dataCoins.data[i].price_change_24h,
+            image:dataCoins.data[i].image,
+        }
+    }
+    return ArrayCoins;
 };
 
 const  getCryptos = async(coinId) => {
@@ -39,8 +52,21 @@ const  getCryptos = async(coinId) => {
 
 };
 
+const  getDescription = async(coinId) => {
+        console.log("coinId",coinId)
+        let data = await CoinGeckoClient.coins.fetch(coinId, {
+            localization:"en",
+        });
+
+        return data.data.description.en
+
+};
+
+
+
 module.exports = {
     getAllCoins,
     getCryptos,
     getLength,
+    getDescription,
 };

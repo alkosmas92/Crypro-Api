@@ -1,86 +1,19 @@
-import "../styles/App.css";
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paginate } from "../functions/paginate";
-import styled from "styled-components";
 
-const Wrapper = styled.div`
-  .pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    font-size: medium;
-  }
-
-  .pagination__page {
-    margin-top: 5px;
-    border: 1px solid black;
-    padding: 3px;
-    cursor: pointer;
-  }
-
-  .main {
-    width: 1100px;
-    margin: 0 auto;
-    padding: 15px;
-    margin-bottom: 25px;
-    border-radius: 6px;
-    background: #faeff0;
-    box-shadow: 0px 0px 12px #aaa, -0px -0px 12px #fff;
-    display: flex;
-    gap: 48%;
-    flex-basis: 80%;
-    color: black;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .main-details {
-    gap: 5%;
-    display: flex;
-    flex-direction: column;
-    width: 65%;
-  }
-
-  .info {
-    float: left;
-    display: flex;
-    gap: 5px;
-    white-space: nowrap;
-    font-weight: normal;
-    font-size: 20px;
-    margin: 0;
-    text-overflow: ellipsis;
-  }
-  .search {
-    width: 100%;
-    padding: 15px;
-    border-radius: 9px;
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const StyleImg = styled.img`{
-    clip-path: circle(50% at 50% 50%);
-    width: 100px;
-    height: 100px;
-    float: left;
-    margin: 0px 20px 0px 10px;
-  `;
-
-// Create a Wrapper component that'll render a <section> tag with some styles
+import {Wrapper ,StyleImg} from "../styles/market";
 
 var coinsPerPAge = 100; // var for control the count of coins for each page
 var ArrayPagination = []; // Array for pagination
 //
 
 const Markets = () => {
-  const [MarketCoins, setMarketCoins] = useState([]); //hook to save Array of Coins
-  const [current, setNextPage] = useState(1); //hook to save Current page
-  const [max, setCountOfCoin] = useState(0); // hook for save count of coins
-  const [findTheRemainder, setfindTheRemainder] = useState(0); // hook save the remainder from division CountCoin(max)/coinsPerPAge
+  const [MarketCoins, setMarketCoins] = useState([]); //  save Array of Coins
+  const [current, setNextPage] = useState(1); //  save Current page
+  const [max, setCountOfCoin] = useState(0); //   save count of coins
+  const [findTheRemainder, setfindTheRemainder] = useState(0); //  the remainder from division CountCoin(max)/coinsPerPAge
 
   useEffect(() => {
     GetMarketCoin();
@@ -124,7 +57,7 @@ const Markets = () => {
         .then((data) => {
           return data;
         });
-      setMarketCoins(result);
+      setMarketCoins(result.data);
     } else if (current === max) {
       //if you are the last page, then change the count with remainder for correct results
       const result = await fetch(`http://localhost:3000/coins/markets`, {
@@ -140,11 +73,11 @@ const Markets = () => {
         .then((data) => {
           return data;
         });
-      setMarketCoins(result);
+      setMarketCoins(result.data);
     }
+    console.log("Msakret",MarketCoins)
 
-  } // i tate info about the coins base on
-  console.log("res", MarketCoins);
+  }
   const handleClick = (num) => {
     // change the current page, base on pagination click
     console.log(num);

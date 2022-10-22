@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const v1CryptoRoutes = require("./v1/routes/cryptoRoutes");
+const v1CryptoRoutes = require("./routes/cryptoRoutes");
 const cors =  require("cors");
 
 

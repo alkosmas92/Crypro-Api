@@ -15,10 +15,15 @@ const getCoin = async (coinId) => {
     const coin = await Crypto.getCryptos(coinId);
     return coin;
 }
+const getDescription = async (coinId) => {
+    const description = await Crypto.getDescription(coinId);
+    return description;
+}
 
 
 module.exports = {
     getAllCryptos,
     getCoin,
     getCountOfCoin,
+    getDescription,
 };

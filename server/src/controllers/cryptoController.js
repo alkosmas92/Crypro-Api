@@ -1,28 +1,46 @@
 const cryptoService = require("../services/cryptoService");
 
 const getCountOfCoin =async (req, res) => {
-    const CountOfCoin = await cryptoService.getCountOfCoin();
-
-     res.send({count : CountOfCoin} );
+    try {
+        const CountOfCoin = await cryptoService.getCountOfCoin();
+        res.send({status:"ok" , count: CountOfCoin});
+    } catch (err) {
+        res.status(404).json({ err });
+    }
 };
 
 
 const getAllCryptos = async (req, res) => {
-    const allCryptos = await cryptoService.getAllCryptos(req.headers.count ,  req.headers.current);
-    res.send(allCryptos.data );
+    try {
+        const allCryptos = await cryptoService.getAllCryptos(req.headers.count, req.headers.current);
+        res.send({status: "ok", data: allCryptos});
+    }
+    catch (err) {
+        res.status(404).json({ err });
+    }
 };
 
 const getCoin = async (req, res) => {
+    try {
+        const Crypto = await cryptoService.getCoin(req.params.coinId);
+        res.status(200).json(Crypto);
+    }catch (err) {
+        res.status(404).json({ err });
+    }
+};
 
-    console.log(req.params)
-    console.log("req.params.coinId" , req.params.coinId)
-    const Crypto = await cryptoService.getCoin(req.params.coinId);
-    res.send(Crypto );
-
+const getDescription = async (req, res) => {
+    try {
+        const Desc = await cryptoService.getDescription(req.params.coinId);
+        res.status(200).json(Desc);
+    }catch (err) {
+        res.status(404).json({ err });
+    }
 };
 
 module.exports = {
     getAllCryptos,
     getCoin,
     getCountOfCoin,
+    getDescription,
 }
